@@ -11,6 +11,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 	const getCorrection = async () => {
 		setStep('loading');
 		const res = await fetch('/api/getCorrection', {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -27,6 +28,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 		const feedbacks = gameState.feedback;
 		feedbacks.push(f);
 		fetch('/api/sendAttempt', {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
