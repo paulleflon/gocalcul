@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import ChoiceButton from "./Button";
 
 export default function Home({choices, setChoices, onStart}) {
@@ -24,7 +23,7 @@ export default function Home({choices, setChoices, onStart}) {
 					<ChoiceButton choices={choices} field='amount' value={5} onClick={onClick}>5</ChoiceButton>
 					<ChoiceButton choices={choices} field='amount' value={10} onClick={onClick}>10</ChoiceButton>
 				</div>
-				<button className='text-4xl' onClick={onStart}>C'est parti !</button>
+				<button className='text-4xl' onClick={onStart}>C&apos;est parti !</button>
 			</div>
 		</div>
 	);
