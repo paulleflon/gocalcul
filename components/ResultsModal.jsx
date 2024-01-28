@@ -27,7 +27,7 @@ export default function ResultsModal({gameState,displayed, onClose}) {
 		     style={{display: displayed ? 'flex' : 'none'}}
 		>
 			<div className='bg-white text-black rounded-lg w-3/5 h-4/5 overflow-y-auto p-4'>
-				<div className='text-center text-4xl font-bold'>Récap'</div>
+				<div className='text-center text-4xl font-bold'>Récap&apos;</div>
 				<div className='flex flex-col gap-4'>
 				{
 					gameState.formulas.map((f, i) => (
