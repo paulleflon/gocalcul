@@ -3,7 +3,6 @@
 // This sends the results of a game to a Discord Webhook.
 const handler = async (req, res) => {
 	try {
-		if (req.body === 'POST') {
 			const {body} = req;
 			const description = `__Formula **${body.viewing}** of **${body.amount}**__
 		**Formula:** \`${body.formula}\`
@@ -29,9 +28,6 @@ const handler = async (req, res) => {
 				})
 			});
 			res.status(200).end();
-		} else {
-			throw 'error';//tempfx
-		}
 	} catch (e) {
 		console.error(e);
 		res.status(500).send(e.message || 'Something unknown went wrong.');
