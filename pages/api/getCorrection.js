@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 			for (const pod of response.pods) {
 				const title = pod.title.toLowerCase();
 				if (title === 'result' || title.includes('simplified') || title.includes('expanded')) {
-					res.status(200).json({correction: pod.subpods[0].plaintext});
+					return res.status(200).json({correction: pod.subpods[0].plaintext});
 				}
 			}
 			res.status(400).json({error: true, message: 'Could not automatically generate a correction.'});
