@@ -1,5 +1,5 @@
-import	Head from 'next/head'
-import	Home from '../components/home';
+import Head from 'next/head'
+import Home from '../components/home';
 import {useState} from "react";
 import Game from "../components/Game";
 import ResultsModal from "../components/ResultsModal";

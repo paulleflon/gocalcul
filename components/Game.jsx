@@ -1,29 +1,42 @@
 import Latex from 'react-latex';
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 export default function Game({gameState, setGameState, onEnd}) {
 	const [step, setStep] = useState('guessing');
+	const [loadingCorrection, setLoadingCorrection] = useState(true);
 	const inputRef = useRef(null);
 	const [inputVal, setInputVal] = useState('');
 	const onInputChange = (e) => {
 		setInputVal(e.target.value);
 	}
 	const getCorrection = async () => {
-		setStep('loading');
-		const res = await fetch('/api/getCorrection', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({formula: gameState.formulas[gameState.viewing]})
-		});
-		const data = await res.json();
-		const {corrections, replies} = gameState;
+		const {replies} = gameState;
 		replies.push(inputRef.current.value);
-		corrections.push(data.correction);
-		setGameState({...gameState, corrections, replies});
+		setGameState({...gameState, replies});
 		setStep('feedback');
 	}
+	useEffect(() => {
+		console.log(loadingCorrection, gameState.corrections.length,gameState.viewing + 1);
+		console.log(gameState.corrections);
+		if (!loadingCorrection || gameState.corrections.length >= gameState.viewing + 1)
+			return;
+		async function fetchData() {
+			setLoadingCorrection(true);
+			const res = await fetch('/api/getCorrection', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({formula: gameState.formulas[gameState.viewing]})
+			});
+			const data = await res.json();
+			const {corrections} = gameState;
+			corrections.push(data.correction);
+			setGameState({...gameState, corrections});
+			setLoadingCorrection(false);
+		}
+		fetchData();
+	}, [gameState, loadingCorrection, setGameState]);
 	const setFeedback = async (f) => {
 		const feedbacks = gameState.feedback;
 		feedbacks.push(f);
@@ -47,6 +60,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 		setStep('guessing');
 		inputRef.current.value = '';
 		setInputVal('');
+		setLoadingCorrection(true);
 	}
 	return (
 		<div className='flex flex-col items-center gap-8'>
@@ -78,7 +92,13 @@ export default function Game({gameState, setGameState, onEnd}) {
 			</div>
 			{
 				step === 'guessing' &&
-					<button onClick={getCorrection}>Afficher la correction</button>
+					<button onClick={getCorrection} disabled={loadingCorrection}
+						className='disabled:bg-gray-400/50 disabled:italic disabled:text-gray-300 disabled:cursor-not-allowed'
+					>
+						{
+							loadingCorrection ? 'Chargement de la correction...' : 'Afficher la correction'
+						}
+					</button>
 			}
 			{
 				step === 'loading' && 'Chargement...'
