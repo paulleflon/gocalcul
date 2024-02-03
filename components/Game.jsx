@@ -72,7 +72,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 					onChange={onInputChange}
 					ref={inputRef}
 				/>
-				<div className='text-xl mt-4 text-center'>
+				<div className='text-lg mt-4 text-center'>
 					<Latex>{'$'+inputVal+'$'}</Latex>
 				</div>
 			</div>
@@ -87,7 +87,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 				step === 'feedback' &&
 				<>
 					<div className='font-xl'>La réponse était :</div>
-					<div className='text-xl text-center flex-1 inline-block'>
+					<div className='text-lg text-center flex-1 inline-block max-w-full overflow-x-auto'>
 						<Latex>{'$' + gameState.corrections[gameState.viewing] + '$'}</Latex>
 					</div>
 					<div>As-tu bien répondu ?</div>
