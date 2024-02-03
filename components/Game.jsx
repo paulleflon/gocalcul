@@ -72,7 +72,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 					onChange={onInputChange}
 					ref={inputRef}
 				/>
-				<div className='text-lg mt-4 text-center'>
+				<div className='text-lg mt-4 text-center max-w-full overflow-x-auto'>
 					<Latex>{'$'+inputVal+'$'}</Latex>
 				</div>
 			</div>
