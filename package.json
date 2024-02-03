@@ -1,6 +1,6 @@
 {
   "name": "gocalcul",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +11,6 @@
   "dependencies": {
     "@wolfram-alpha/wolfram-alpha-api": "^23.1004.144821-RELEASE",
     "next": "14.1.0",
-    "openai": "^4.26.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-latex": "^2.0.0"

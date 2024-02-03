@@ -58,7 +58,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 				</div>
 			</div>
 			<div className='text-2xl font-bold flex-1 inline-block'>Développer, réduire et ordonner</div>
-			<div className='text-2xl text-center flex-1 inline-block'>
+			<div className='text-lg text-center flex-1 inline-block overflow-x-auto max-w-full'>
 				<Latex>{'$' + gameState.formulas[gameState.viewing] + '$'}</Latex>
 			</div>
 			<div className='relative w-9/12'>

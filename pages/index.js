@@ -3,6 +3,7 @@ import	Home from '../components/home';
 import {useState} from "react";
 import Game from "../components/Game";
 import ResultsModal from "../components/ResultsModal";
+import {DIFFICULTIES, generateFormula} from '../lib/formula';
 
 export default function Index()	{
 	const [choices, setChoices] = useState({
@@ -25,9 +26,11 @@ export default function Index()	{
 				return;
 		}
 		setLoading(true);
-		const res = await fetch(`/api/getFormulas?amount=${choices.amount}&difficulty=${choices.difficulty}`);
-		const data = await res.json();
-		setGameState({formulas: data, replies: [], corrections: [], feedback: [], viewing: 0 });
+		let formulas = [];
+		for (let i = 0; i < choices.amount; i++) {
+			formulas.push(generateFormula(DIFFICULTIES[choices.difficulty]));
+		}
+		setGameState({formulas, replies: [], corrections: [], feedback: [], viewing: 0 });
 		setLoading(false);
 		setScene('game');
 	}
@@ -45,8 +48,8 @@ export default function Index()	{
 				<meta name='description' content='Generated	by create next app'/>
 				<link rel='icon' href='/favicon.ico'/>
 				<link
-					href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
-					rel="stylesheet"
+					href='//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css'
+					rel='stylesheet'
 				/>
 			</Head>
 			<div className='ribbon'>ALPHA</div>
