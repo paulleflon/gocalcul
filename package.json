@@ -1,6 +1,6 @@
 {
   "name": "gocalcul",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": false,
   "scripts": {
     "dev": "next dev",
