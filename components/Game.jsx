@@ -14,9 +14,10 @@ export default function Game({gameState, setGameState, onEnd}) {
 		const {replies} = gameState;
 		replies.push(inputRef.current.value);
 		setGameState({...gameState, replies});
-		if (correctionError) {
+		if (correctionError)
 			setFeedback('error');
-		}
+		else
+			setStep('feedback');
 	}
 	useEffect(() => {
 		console.log(loadingCorrection, gameState.corrections.length,gameState.viewing + 1);
