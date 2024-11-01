@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react";
 export default function Game({gameState, setGameState, onEnd}) {
 	const [step, setStep] = useState('guessing');
 	const [loadingCorrection, setLoadingCorrection] = useState(true);
+	const [correctionError, setCorrectionError] = useState(false);
 	const inputRef = useRef(null);
 	const [inputVal, setInputVal] = useState('');
 	const onInputChange = (e) => {
@@ -13,7 +14,9 @@ export default function Game({gameState, setGameState, onEnd}) {
 		const {replies} = gameState;
 		replies.push(inputRef.current.value);
 		setGameState({...gameState, replies});
-		setStep('feedback');
+		if (correctionError) {
+			setFeedback('error');
+		}
 	}
 	useEffect(() => {
 		console.log(loadingCorrection, gameState.corrections.length,gameState.viewing + 1);
@@ -22,18 +25,26 @@ export default function Game({gameState, setGameState, onEnd}) {
 			return;
 		async function fetchData() {
 			setLoadingCorrection(true);
-			const res = await fetch('/api/getCorrection', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({formula: gameState.formulas[gameState.viewing]})
-			});
-			const data = await res.json();
-			const {corrections} = gameState;
-			corrections.push(data.correction);
-			setGameState({...gameState, corrections});
-			setLoadingCorrection(false);
+			let correction = '';
+			try {
+				const res = await fetch('/api/getCorrection', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({formula: gameState.formulas[gameState.viewing]})
+				});
+				const data = await res.json();
+				correction = data.correction;
+			} catch (err) {
+				setCorrectionError(true);
+				correction = 'Erreur\\ lors\\ de\\ la\\ récupération\\ de\\ la\\ correction.';
+			} finally {
+				setLoadingCorrection(false);
+				const {corrections} = gameState;
+				corrections.push(correction);
+				setGameState({...gameState, corrections});
+			}
 		}
 		fetchData();
 	}, [gameState, loadingCorrection, setGameState]);
@@ -60,6 +71,7 @@ export default function Game({gameState, setGameState, onEnd}) {
 		setStep('guessing');
 		inputRef.current.value = '';
 		setInputVal('');
+		setCorrectionError(false);
 		setLoadingCorrection(true);
 	}
 	return (
@@ -96,7 +108,8 @@ export default function Game({gameState, setGameState, onEnd}) {
 						className='disabled:bg-gray-400/50 disabled:italic disabled:text-gray-300 disabled:cursor-not-allowed'
 					>
 						{
-							loadingCorrection ? 'Chargement de la correction...' : 'Afficher la correction'
+							loadingCorrection ? 'Chargement de la correction...' : 
+							correctionError ? 'Erreur lors de la récupération de la correction. Cliquez pour passer au problème suivant.' : 'Valider'
 						}
 					</button>
 			}

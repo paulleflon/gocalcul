@@ -7,7 +7,8 @@ export default function ResultsModal({gameState,displayed, onClose}) {
 		'wrong': 'Faux',
 		'almost': 'Presque',
 		'right': 'Correct',
-		'incorrect': 'Correction\\ incorrecte'
+		'incorrect': 'Correction\\ incorrecte',
+		'error': 'Erreur\\ de\\ correction'
 	};
 	useEffect(() => {
 		let g = 0;
