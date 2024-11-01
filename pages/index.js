@@ -21,7 +21,6 @@ export default function Index()	{
 	});
 	const [showResults, setShowResults] = useState(false);
 	const onStart = async () => {
-		console.log(choices);
 		for (const c of Object.values(choices)) {
 			if (c === null)
 				return;

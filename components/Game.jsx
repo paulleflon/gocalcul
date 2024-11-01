@@ -20,8 +20,6 @@ export default function Game({gameState, setGameState, onEnd}) {
 			setStep('feedback');
 	}
 	useEffect(() => {
-		console.log(loadingCorrection, gameState.corrections.length,gameState.viewing + 1);
-		console.log(gameState.corrections);
 		if (!loadingCorrection || gameState.corrections.length >= gameState.viewing + 1)
 			return;
 		async function fetchData() {
